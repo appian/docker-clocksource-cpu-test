@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+// This arg is needed for the perf tool to be able to walk stack traces for FlameGraphs
+applicationDefaultJvmArgs = ["-XX:+PreserveFramePointer"]
+
+mainClassName = 'app.Application'
+
+repositories {
+  mavenCentral()
+}
+
+jar {
+  baseName = 'docker-clocksource-cpu-test'
+  version =  '0.1.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+}
+
+wrapper.gradleVersion = 5.0
+
+// Task to generate a deep call stack
+task generateFunctions {
+  doLast {
+    1500.times { idx ->
+      println """
+  private static long f${idx}() {
+    return f${idx+1}();
+  }"""
+    }
+  }
+}
