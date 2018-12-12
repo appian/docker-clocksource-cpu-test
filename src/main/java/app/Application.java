@@ -2,18 +2,21 @@ package app;
 
 public class Application {
   public static void main(String[] args) {
+    // this sample app will continually call doWork() until stopped, and will print out
+    // the current time every 500k iterations to indicate that it is still running.
     long period = 500000;
-    long c = period;
+    long counter = period;
     while (true) {
-      long l = doWork();
-      if (c == 0) {
-        System.out.println(l);
-        c = period;
+      long epochMs = doWork();
+      if (counter == 0) {
+        System.out.println(epochMs);
+        counter = period;
       }
-      c--;
+      counter--;
     }
   }
 
+  // does some CPU work and returns the current epoch time in milliseconds
   private static long doWork() {
     return f0();
   }
